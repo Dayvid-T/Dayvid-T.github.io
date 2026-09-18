@@ -4,17 +4,17 @@ export const categories = [
   {
     id: "ai",
     name: "AI & Machine Learning",
-    blurb: "Retrieval, evaluation and guardrails - systems that have to prove they behave.",
+    blurb: "RAG pipelines, evaluation, and guardrails around LLM apps.",
   },
   {
     id: "cybersec",
     name: "Cyber Security",
-    blurb: "Detection, incident response and hardening at the boundary.",
+    blurb: "Detection, incident response, and hardening.",
   },
   {
     id: "info-management",
     name: "Information Management",
-    blurb: "How organizations capture, structure and govern their data.",
+    blurb: "How organizations store, structure, and keep control of their data.",
   },
 ] as const;
 

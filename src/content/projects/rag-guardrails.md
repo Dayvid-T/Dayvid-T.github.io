@@ -1,6 +1,6 @@
 ---
 title: "Guardrails at the API Boundary"
-summary: "Prompt-injection detection and bias filtering, measured with the evaluation suite"
+summary: "Prompt-injection detection and bias filtering, checked with the evaluation suite"
 date: 2026-10-01
 category: ai
 tags: [Python, FastAPI, Prompt injection, AI safety]
@@ -13,18 +13,19 @@ featured: true
 order: 10
 ---
 
-The third phase hardens the pipeline where it meets the outside world.
+Phase 3 is about what happens when someone tries to misuse the pipeline.
+Not started yet.
 
 ## Plan
 
-- **Prompt-injection detection** on both the question and the retrieved
-  passages, so a poisoned document can't hijack the answer.
-- **Bias and toxicity filtering** on generated output, with a clear refusal
-  path instead of silent rewriting.
-- **Auditability** - every block or rewrite is logged with the rule that
-  fired, so decisions can be reviewed.
-- **Measured, not assumed** - an adversarial split is added to the
-  evaluation dataset so the Phase 2 suite reports attack success rate
-  alongside hallucination rate.
+- Detect prompt injection in both the question and the retrieved passages,
+  so a poisoned document can't take over the answer.
+- Filter biased or toxic output, and refuse clearly rather than quietly
+  rewriting.
+- Log every block or rewrite with the rule that triggered it, so decisions
+  can be reviewed later.
+- Add an adversarial split to the evaluation dataset so the Phase 2 suite
+  reports attack success rate next to hallucination rate. If it can't be
+  measured I won't know whether it works.
 
-This page will fill in as the work lands.
+I'll update this page as I go.

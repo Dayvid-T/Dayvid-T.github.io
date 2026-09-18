@@ -1,0 +1,50 @@
+---
+import { site } from "../site";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer-inner mono">
+    <span>© {year} {site.name}</span>
+    <nav class="footer-links" aria-label="Social">
+      <a href={site.links.github} rel="me">GitHub</a>
+      {site.links.linkedin && <a href={site.links.linkedin} rel="me">LinkedIn</a>}
+      {site.links.email && <a href={`mailto:${site.links.email}`}>Email</a>}
+    </nav>
+    <span class="built">Built with Astro · hosted on GitHub Pages</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0 40px;
+    font-size: 0.8rem;
+    color: var(--grey-2);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    align-items: center;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-links a {
+    color: var(--grey);
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover {
+    color: var(--text);
+  }
+
+  .built {
+    margin-left: auto;
+  }
+</style>

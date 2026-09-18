@@ -1,0 +1,136 @@
+---
+import Base from "../layouts/Base.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import SeriesTimeline from "../components/SeriesTimeline.astro";
+import { featuredProjects, seriesList } from "../lib/projects";
+import { site } from "../site";
+
+const featured = await featuredProjects();
+const series = await seriesList();
+const contact = site.links.email ? `mailto:${site.links.email}` : site.links.github;
+---
+
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><span class="n">//</span>{site.location} · open to internships</p>
+      <h1>{site.headline}</h1>
+      <p class="lede">{site.tagline}</p>
+      <div class="cta">
+        <a class="btn primary" href="#projects">See the work</a>
+        <a class="btn" href={site.links.github}>GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="n">01</span>Projects</p>
+          <h2>Things I've built and measured.</h2>
+        </div>
+        <a class="link-arrow" href="/projects/">All projects ↗</a>
+      </div>
+      <div class="grid">
+        {featured.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+
+  {series.length > 0 && (
+    <section id="series" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow"><span class="n">02</span>Series</p>
+            <h2>One system, built in phases.</h2>
+          </div>
+        </div>
+        {series.map((s) => <SeriesTimeline series={s} />)}
+      </div>
+    </section>
+  )}
+
+  <section id="about" class="section">
+    <div class="wrap about">
+      <div>
+        <p class="eyebrow"><span class="n">03</span>About</p>
+        <h2>Hi, I'm {site.name.split(" ")[0]}.</h2>
+      </div>
+      <div class="about-body">
+        {site.about.map((para) => <p>{para}</p>)}
+        <div class="cta">
+          <a class="btn primary" href={contact}>Get in touch</a>
+          {site.links.linkedin && <a class="btn" href={site.links.linkedin}>LinkedIn ↗</a>}
+          {site.links.resume && <a class="btn" href={site.links.resume}>Résumé</a>}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 120px 0 96px;
+  }
+
+  h1 {
+    margin: 18px 0 20px;
+    max-width: 14ch;
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 1.2rem;
+    color: var(--text-dim);
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px 28px;
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 40px;
+  }
+
+  .about h2 {
+    margin: 8px 0 0;
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .about-body p {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 820px) {
+    .about {
+      grid-template-columns: 1fr;
+    }
+    .hero {
+      padding: 80px 0 64px;
+    }
+  }
+</style>

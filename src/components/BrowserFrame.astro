@@ -1,0 +1,69 @@
+---
+interface Props {
+  label?: string;
+  src?: string;
+  alt?: string;
+  class?: string;
+}
+
+const { label, src, alt = "", class: className = "" } = Astro.props;
+---
+
+<div class:list={["frame", className]}>
+  <div class="bar">
+    <span class="dots"><i></i><i></i><i></i></span>
+    {label && <span class="label mono">{label}</span>}
+  </div>
+  <div class="body">
+    {src ? <img src={src} alt={alt} loading="lazy" /> : <slot />}
+  </div>
+</div>
+
+<style>
+  .frame {
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--navy);
+    overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 40px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2c2f36;
+  }
+
+  .label {
+    font-size: 0.78rem;
+    color: var(--grey);
+  }
+
+  .body {
+    aspect-ratio: 16 / 10;
+    background: var(--navy-2);
+  }
+
+  .body img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+</style>

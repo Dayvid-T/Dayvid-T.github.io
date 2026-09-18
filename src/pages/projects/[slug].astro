@@ -1,0 +1,175 @@
+---
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import BrowserFrame from "../../components/BrowserFrame.astro";
+import { allProjects, STATUS_LABEL, year } from "../../lib/projects";
+
+export async function getStaticPaths() {
+  const projects = await allProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const siblings = data.series
+  ? (await allProjects())
+      .filter((p) => p.data.series === data.series)
+      .sort((a, b) => (a.data.phase ?? 0) - (b.data.phase ?? 0))
+  : [];
+---
+
+<Base title={data.title} description={data.summary}>
+  <article class="project">
+    <div class="wrap">
+      <a class="back mono" href="/#projects">← Projects</a>
+
+      <header class="head">
+        {data.series && (
+          <p class="eyebrow">
+            <span class="n">{String(data.phase ?? 0).padStart(2, "0")}</span>
+            {data.series}
+          </p>
+        )}
+        <h1>{data.title}</h1>
+        <p class="summary">{data.summary}</p>
+
+        <div class="facts mono">
+          <span class:list={["status", data.status]}>{STATUS_LABEL[data.status]}</span>
+          <span class="year">{year(project)}</span>
+          {data.repo && <a href={data.repo}>Source ↗</a>}
+          {data.demo && <a href={data.demo}>Live ↗</a>}
+        </div>
+
+        {data.tags.length > 0 && (
+          <ul class="tags">
+            {data.tags.map((tag) => <li class="tag">{tag}</li>)}
+          </ul>
+        )}
+      </header>
+
+      {data.cover && (
+        <BrowserFrame class="hero-frame" label={data.frameLabel} src={data.cover} alt={data.coverAlt ?? data.title} />
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {siblings.length > 1 && (
+        <nav class="siblings" aria-label="Series phases">
+          <p class="eyebrow"><span class="n">//</span>{data.series}</p>
+          <ol class="mono">
+            {siblings.map((p) => (
+              <li class:list={{ current: p.id === project.id }}>
+                <a href={`/projects/${p.id}/`}>
+                  <span class="ph">Phase {p.data.phase}</span>
+                  <span>{p.data.title}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+    </div>
+  </article>
+</Base>
+
+<style>
+  .project {
+    padding: 48px 0 96px;
+  }
+
+  .back {
+    font-size: 0.85rem;
+    color: var(--grey);
+  }
+
+  .back:hover {
+    color: var(--text);
+  }
+
+  .head {
+    margin: 28px 0 36px;
+  }
+
+  h1 {
+    margin: 10px 0 12px;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    max-width: 18ch;
+  }
+
+  .summary {
+    margin: 0 0 20px;
+    font-size: 1.25rem;
+    color: var(--text-dim);
+    max-width: 60ch;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+    font-size: 0.88rem;
+    color: var(--grey);
+  }
+
+  .facts a:hover {
+    color: var(--text);
+  }
+
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .project :global(.hero-frame) {
+    margin-bottom: 48px;
+  }
+
+  .siblings {
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .siblings ol {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .siblings a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--navy);
+    font-size: 0.9rem;
+    transition: border-color 0.15s;
+  }
+
+  .siblings a:hover,
+  .siblings .current a {
+    border-color: var(--wood);
+  }
+
+  .ph {
+    font-size: 0.74rem;
+    color: var(--grey);
+  }
+</style>

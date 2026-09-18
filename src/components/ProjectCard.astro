@@ -1,0 +1,105 @@
+---
+import BrowserFrame from "./BrowserFrame.astro";
+import { STATUS_LABEL, year, type Project } from "../lib/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const href = `/projects/${project.id}/`;
+---
+
+<a class="card" href={href} data-cursor>
+  <BrowserFrame label={data.frameLabel} src={data.cover} alt={data.coverAlt ?? data.title}>
+    {!data.cover && (
+      <div class="placeholder mono">
+        <span>{data.series ? `phase ${data.phase ?? "?"}` : "project"}</span>
+        <strong>{data.title}</strong>
+      </div>
+    )}
+  </BrowserFrame>
+
+  <div class="meta">
+    <div class="title-row">
+      <h3>{data.title}</h3>
+      <span class="year mono">{year(project)}</span>
+    </div>
+    <p>{data.summary}</p>
+    <span class:list={["status", data.status]}>{STATUS_LABEL[data.status]}</span>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: block;
+  }
+
+  .card :global(.frame) {
+    transition: transform 0.25s ease, border-color 0.25s;
+  }
+
+  .card:hover :global(.frame) {
+    transform: translateY(-4px);
+    border-color: var(--navy-line);
+  }
+
+  .placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 24px;
+    background:
+      radial-gradient(70% 60% at 100% 0%, var(--wood-dim), transparent 70%),
+      linear-gradient(160deg, var(--navy-2), var(--navy));
+  }
+
+  .placeholder span {
+    font-size: 0.74rem;
+    color: var(--wood);
+  }
+
+  .placeholder strong {
+    font-family: var(--sans);
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .meta {
+    padding: 20px 4px 0;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    transition: color 0.15s;
+  }
+
+  .card:hover h3 {
+    color: var(--wood-2);
+  }
+
+  .year {
+    font-size: 0.9rem;
+    color: var(--grey);
+  }
+
+  p {
+    margin: 8px 0 14px;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+  }
+</style>

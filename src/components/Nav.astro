@@ -1,0 +1,97 @@
+---
+import { site } from "../site";
+
+const contact = site.links.email ? `mailto:${site.links.email}` : site.links.github;
+const [first, last] = site.handle.split(".");
+---
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand mono" aria-label="Home">
+      {first}<span class="dot">.</span>{last}
+    </a>
+
+    <nav class="links mono" aria-label="Primary">
+      <a href="/#projects"><span class="n">01</span>Projects</a>
+      <a href="/#series"><span class="n">02</span>Series</a>
+      <a href="/#about"><span class="n">03</span>About</a>
+    </nav>
+
+    <div class="actions mono">
+      {site.links.resume && <a class="quiet" href={site.links.resume}>Résumé</a>}
+      <a class="btn" href={contact}>Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(12px);
+    background: rgba(11, 10, 9, 0.72);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 68px;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .dot {
+    color: var(--wood);
+  }
+
+  .links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    color: var(--grey);
+  }
+
+  .links a {
+    transition: color 0.15s;
+  }
+
+  .links a:hover {
+    color: var(--text);
+  }
+
+  .n {
+    color: var(--grey-2);
+    margin-right: 6px;
+    font-size: 0.78rem;
+  }
+
+  .actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 0.92rem;
+  }
+
+  .quiet {
+    color: var(--grey);
+    transition: color 0.15s;
+  }
+
+  .quiet:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 720px) {
+    .links {
+      display: none;
+    }
+  }
+</style>

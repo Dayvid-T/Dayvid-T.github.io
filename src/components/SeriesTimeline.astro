@@ -1,0 +1,103 @@
+---
+import { STATUS_LABEL, type Series } from "../lib/projects";
+
+interface Props {
+  series: Series;
+}
+
+const { series } = Astro.props;
+---
+
+<section class="series">
+  <h3 class="name">{series.name}</h3>
+  <ol class="steps">
+    {series.entries.map((p) => (
+      <li class:list={["step", p.data.status]}>
+        <a href={`/projects/${p.id}/`} data-cursor>
+          <span class="phase mono">Phase {p.data.phase ?? "–"}</span>
+          <strong>{p.data.title}</strong>
+          <span class="summary">{p.data.summary}</span>
+          <span class:list={["status", p.data.status]}>{STATUS_LABEL[p.data.status]}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .name {
+    margin: 0 0 20px;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--grey);
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    counter-reset: step;
+  }
+
+  .step a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    padding: 22px 22px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--navy), var(--bg-2));
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .step a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 22px;
+    right: 22px;
+    height: 2px;
+    background: var(--wood);
+    opacity: 0.9;
+  }
+
+  .step.in-progress a::before {
+    background: var(--blue);
+  }
+
+  .step.planned a::before {
+    background: var(--grey-2);
+    opacity: 0.5;
+  }
+
+  .step a:hover {
+    transform: translateY(-3px);
+    border-color: var(--navy-line);
+  }
+
+  .phase {
+    font-size: 0.74rem;
+    color: var(--grey);
+  }
+
+  strong {
+    font-size: 1.15rem;
+    letter-spacing: -0.015em;
+  }
+
+  .summary {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    flex: 1;
+  }
+
+  .status {
+    margin-top: 8px;
+  }
+</style>

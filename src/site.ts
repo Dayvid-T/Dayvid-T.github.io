@@ -12,7 +12,7 @@ export const site = {
   location: "Victoria, BC",
   links: {
     github: "https://github.com/Dayvid-T",
-    linkedin: "", // e.g. https://www.linkedin.com/in/your-handle
+    linkedin: "https://www.linkedin.com/in/david-w-30aa9b156",
     email: "", // e.g. you@example.com - powers the "Get in touch" button
     resume: "", // e.g. /resume.pdf after dropping the file in public/
   },

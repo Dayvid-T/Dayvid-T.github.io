@@ -10,7 +10,7 @@ export const site = {
     "The projects are grouped into three areas: AI, cyber security, and information management. The AI section has a three-part project I'm working through right now: a RAG pipeline, an evaluation suite for it, and guardrails that I haven't started yet.",
   ],
   location: "Victoria, BC",
-  availability: "looking for co-op placements",
+  availability: "looking for a full-time role",
   links: {
     github: "https://github.com/Dayvid-T",
     linkedin: "https://www.linkedin.com/in/david-w-30aa9b156",

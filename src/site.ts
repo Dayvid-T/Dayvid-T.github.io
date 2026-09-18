@@ -14,7 +14,7 @@ export const site = {
   links: {
     github: "https://github.com/Dayvid-T",
     linkedin: "https://www.linkedin.com/in/david-w-30aa9b156",
-    email: "", // e.g. you@example.com - powers the "Get in touch" button
+    email: "whytedavid3@gmail.com",
     resume: "", // e.g. /resume.pdf after dropping the file in public/
   },
 };

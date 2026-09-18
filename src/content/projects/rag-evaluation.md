@@ -8,6 +8,8 @@ status: complete
 series: "AI Security & Governance"
 phase: 2
 repo: https://github.com/Dayvid-T/Rag-pipeline/tree/main/evaluation
+cover: /images/eval-run.png
+coverAlt: "Terminal output of run_eval.py grading 18 questions and printing hallucination rate, accuracy and latency"
 frameLabel: "evaluation/run_eval.py"
 featured: true
 order: 20

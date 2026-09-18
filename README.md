@@ -21,7 +21,7 @@ card, the project page and any series grouping from its front matter:
 title: "My Project"
 summary: "One line that says what it does"
 date: 2026-11-01
-category: cybersec          # ai | cybersec | info-management | software (see src/categories.ts)
+category: cybersec          # ai | cybersec | info-management (see src/categories.ts)
 tags: [Python, FastAPI]
 status: complete            # maintained | complete | in-progress | planned
 series: "Some Series"       # optional - groups phases together

@@ -1,7 +1,6 @@
 ---
 import CategoryIcon from "./CategoryIcon.astro";
 import ProjectCard from "./ProjectCard.astro";
-import SeriesTimeline from "./SeriesTimeline.astro";
 import { projectsByCategory } from "../lib/projects";
 
 const groups = await projectsByCategory();
@@ -44,7 +43,13 @@ const count = (n: number) => (n === 0 ? "Coming soon" : `${n} project${n === 1 ?
             <>
               {g.series.map((s) => (
                 <div class="series-block">
-                  <SeriesTimeline series={s} />
+                  <div class="series-head">
+                    <p class="eyebrow"><span class="n">//</span>{s.name}</p>
+                    <span class="series-count mono">{s.entries.length} phases</span>
+                  </div>
+                  <div class="cards">
+                    {s.entries.map((p) => <ProjectCard project={p} />)}
+                  </div>
                 </div>
               ))}
               {g.standalone.length > 0 && (
@@ -181,7 +186,19 @@ const count = (n: number) => (n === 0 ? "Coming soon" : `${n} project${n === 1 ?
 
   .series-block + .cards,
   .series-block + .series-block {
-    margin-top: 32px;
+    margin-top: 40px;
+  }
+
+  .series-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+  }
+
+  .series-count {
+    font-size: 0.76rem;
+    color: var(--grey);
   }
 
   .cards {

@@ -22,6 +22,7 @@ const href = `/projects/${project.id}/`;
   </BrowserFrame>
 
   <div class="meta">
+    {data.phase && <span class="phase mono">Phase {data.phase}</span>}
     <div class="title-row">
       <h3>{data.title}</h3>
       <span class="year mono">{year(project)}</span>
@@ -71,6 +72,13 @@ const href = `/projects/${project.id}/`;
 
   .meta {
     padding: 20px 4px 0;
+  }
+
+  .phase {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 0.74rem;
+    color: var(--wood);
   }
 
   .title-row {

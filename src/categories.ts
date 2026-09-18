@@ -16,11 +16,6 @@ export const categories = [
     name: "Information Management",
     blurb: "How organizations capture, structure and govern their data.",
   },
-  {
-    id: "software",
-    name: "Software Engineering",
-    blurb: "Tools, services and the plumbing that keeps them honest.",
-  },
 ] as const;
 
 export type CategoryId = (typeof categories)[number]["id"];

@@ -2,12 +2,12 @@
 export const site = {
   name: "David Whyte",
   handle: "david.whyte",
-  headline: "Systems that answer, prove it, and hold the line.",
+  headline: "Intelligent systems, secured and accountable.",
   tagline:
-    "Software engineering student building AI systems with retrieval that cites, evaluation that catches hallucinations, and guardrails that hold.",
+    "Software engineering student working across AI, cyber security and information management - building systems that answer with evidence, hold up under attack, and keep their data in order.",
   about: [
-    "I'm a software engineering student at the University of Victoria. I like building the whole thing - data in, model in the middle, a real interface on the front - and then measuring whether it actually behaves.",
-    "Right now I'm working through a three-part series on AI security and governance: a production-style RAG pipeline, an evaluation suite that grades it, and guardrails at the API boundary.",
+    "I'm a software engineering student at the University of Victoria. I like building the whole thing - data in, logic in the middle, a real interface on the front - and then measuring whether it actually behaves.",
+    "My work sits where three tracks meet: AI systems that have to prove their answers, security that holds at the boundary, and the information management that keeps an organization's data trustworthy. The projects here are grouped by those tracks, starting with a three-phase series on AI security and governance.",
   ],
   location: "Victoria, BC",
   links: {

@@ -1,20 +1,20 @@
 :root {
-  /* Warm black canvas, navy surfaces, grey text, wood-brown accent. */
-  --bg: #0b0a09;
-  --bg-2: #100f0e;
-  --navy: #0f1622;
-  --navy-2: #151f30;
-  --navy-line: #1f2b40;
-  --grey: #9aa0a8;
-  --grey-2: #6b7079;
-  --line: #24262b;
-  --text: #e8e3dc;
-  --text-dim: #b9b3aa;
-  --wood: #c1803f;
-  --wood-2: #d99a55;
-  --wood-dim: rgba(193, 128, 63, 0.16);
-  --blue: #6f95c9;
-  --blue-dim: rgba(111, 149, 201, 0.14);
+  /* Cool navy canvas, slate surfaces, grey text, wood-brown accent. */
+  --bg: #0a0e15;
+  --bg-2: #0e131c;
+  --navy: #121927;
+  --navy-2: #182234;
+  --navy-line: #253349;
+  --grey: #98a3b5;
+  --grey-2: #66707f;
+  --line: #1d2532;
+  --text: #e4e8ee;
+  --text-dim: #aeb7c5;
+  --wood: #b98240;
+  --wood-2: #d29a58;
+  --wood-dim: rgba(185, 130, 64, 0.16);
+  --blue: #7aa2d8;
+  --blue-dim: rgba(122, 162, 216, 0.14);
   --radius: 14px;
   --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

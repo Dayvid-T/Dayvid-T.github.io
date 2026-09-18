@@ -3,6 +3,7 @@ import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import BrowserFrame from "../../components/BrowserFrame.astro";
 import { allProjects, STATUS_LABEL, year } from "../../lib/projects";
+import { categoryById } from "../../categories";
 
 export async function getStaticPaths() {
   const projects = await allProjects();
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { data } = project;
 const { Content } = await render(project);
+const category = categoryById(data.category);
 
 const siblings = data.series
   ? (await allProjects())
@@ -23,15 +25,22 @@ const siblings = data.series
 <Base title={data.title} description={data.summary}>
   <article class="project">
     <div class="wrap">
-      <a class="back mono" href="/#projects">← Projects</a>
+      <a class="back mono" href={`/#${data.category}`}>← {category.name}</a>
 
       <header class="head">
-        {data.series && (
-          <p class="eyebrow">
-            <span class="n">{String(data.phase ?? 0).padStart(2, "0")}</span>
-            {data.series}
-          </p>
-        )}
+        <p class="eyebrow">
+          {data.series ? (
+            <>
+              <span class="n">{String(data.phase ?? 0).padStart(2, "0")}</span>
+              {data.series}
+            </>
+          ) : (
+            <>
+              <span class="n">//</span>
+              {category.name}
+            </>
+          )}
+        </p>
         <h1>{data.title}</h1>
         <p class="summary">{data.summary}</p>
 

@@ -2,6 +2,7 @@
 title: "RAG Evaluation Suite"
 summary: "Black-box evaluation of the pipeline: hallucination rate, accuracy, retrieval hits, latency"
 date: 2026-09-17
+category: ai
 tags: [Python, LLM-as-judge, Gemini, httpx, pytest]
 status: complete
 series: "AI Security & Governance"

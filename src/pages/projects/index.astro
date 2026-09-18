@@ -1,12 +1,14 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
-import { allProjects } from "../../lib/projects";
+import CategoryIcon from "../../components/CategoryIcon.astro";
+import { projectsByCategory } from "../../lib/projects";
 
-const projects = await allProjects();
+const groups = await projectsByCategory();
+const total = groups.reduce((n, g) => n + g.projects.length, 0);
 ---
 
-<Base title="Projects" description="Everything I've built, newest first.">
+<Base title="Projects" description="Everything I've built, grouped by track.">
   <section class="page">
     <div class="wrap">
       <div class="section-head">
@@ -14,11 +16,27 @@ const projects = await allProjects();
           <p class="eyebrow"><span class="n">01</span>Projects</p>
           <h2>All projects.</h2>
         </div>
-        <span class="link-arrow">{projects.length} total</span>
+        <span class="link-arrow">{total} total</span>
       </div>
-      <div class="grid">
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
+
+      {groups.map((g) => (
+        <section class="group" id={g.id}>
+          <div class="group-head">
+            <span class="icon"><CategoryIcon id={g.id} /></span>
+            <div>
+              <h3>{g.name}</h3>
+              <p>{g.blurb}</p>
+            </div>
+          </div>
+          {g.projects.length === 0 ? (
+            <p class="empty mono">Coming soon.</p>
+          ) : (
+            <div class="grid">
+              {g.projects.map((project) => <ProjectCard project={project} />)}
+            </div>
+          )}
+        </section>
+      ))}
     </div>
   </section>
 </Base>
@@ -28,9 +46,55 @@ const projects = await allProjects();
     padding: 72px 0 96px;
   }
 
+  .group {
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .group-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--wood-dim);
+    color: var(--wood-2);
+    flex: none;
+  }
+
+  .group-head h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--text);
+  }
+
+  .group-head p {
+    margin: 4px 0 0;
+    color: var(--text-dim);
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 32px 28px;
+  }
+
+  .empty {
+    margin: 0;
+    padding: 20px 24px;
+    border-radius: 12px;
+    border: 1px dashed var(--navy-line);
+    color: var(--grey);
+    font-size: 0.85rem;
   }
 </style>

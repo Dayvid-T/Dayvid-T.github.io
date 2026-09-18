@@ -2,6 +2,7 @@
 title: "Guardrails at the API Boundary"
 summary: "Prompt-injection detection and bias filtering, measured with the evaluation suite"
 date: 2026-10-01
+category: ai
 tags: [Python, FastAPI, Prompt injection, AI safety]
 status: planned
 series: "AI Security & Governance"

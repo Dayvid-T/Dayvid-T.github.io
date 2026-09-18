@@ -21,6 +21,7 @@ card, the project page and any series grouping from its front matter:
 title: "My Project"
 summary: "One line that says what it does"
 date: 2026-11-01
+category: cybersec          # ai | cybersec | info-management | software (see src/categories.ts)
 tags: [Python, FastAPI]
 status: complete            # maintained | complete | in-progress | planned
 series: "Some Series"       # optional - groups phases together
@@ -37,6 +38,9 @@ Write the body in Markdown. Inline HTML/SVG works too.
 ```
 
 Everything personal (name, headline, bio, links) lives in `src/site.ts`.
+Category cards (the accordion under Projects) are defined in
+`src/categories.ts`; a category with no projects shows a "Coming soon"
+placeholder until its first Markdown file lands.
 
 ## Deploy
 

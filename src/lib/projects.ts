@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import { categories, type CategoryId } from "../categories";
 
 export type Project = CollectionEntry<"projects">;
 
@@ -17,30 +18,45 @@ export async function allProjects(): Promise<Project[]> {
   });
 }
 
-export async function featuredProjects(): Promise<Project[]> {
-  const projects = await allProjects();
-  const featured = projects.filter((p) => p.data.featured);
-  return featured.length ? featured : projects.slice(0, 3);
-}
-
 export interface Series {
   name: string;
   entries: Project[];
 }
 
-export async function seriesList(): Promise<Series[]> {
-  const projects = await allProjects();
+function groupSeries(projects: Project[]): { series: Series[]; standalone: Project[] } {
   const groups = new Map<string, Project[]>();
+  const standalone: Project[] = [];
   for (const project of projects) {
-    if (!project.data.series) continue;
+    if (!project.data.series) {
+      standalone.push(project);
+      continue;
+    }
     const list = groups.get(project.data.series) ?? [];
     list.push(project);
     groups.set(project.data.series, list);
   }
-  return Array.from(groups, ([name, entries]) => ({
+  const series = Array.from(groups, ([name, entries]) => ({
     name,
     entries: entries.sort((a, b) => (a.data.phase ?? 0) - (b.data.phase ?? 0)),
   }));
+  return { series, standalone };
+}
+
+export interface CategoryGroup {
+  id: CategoryId;
+  name: string;
+  blurb: string;
+  projects: Project[];
+  series: Series[];
+  standalone: Project[];
+}
+
+export async function projectsByCategory(): Promise<CategoryGroup[]> {
+  const projects = await allProjects();
+  return categories.map((category) => {
+    const mine = projects.filter((p) => p.data.category === category.id);
+    return { ...category, projects: mine, ...groupSeries(mine) };
+  });
 }
 
 export function year(project: Project): string {

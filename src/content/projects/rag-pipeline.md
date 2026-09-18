@@ -2,6 +2,7 @@
 title: "RAG Pipeline QA"
 summary: "Document Q&A with hybrid search, grounded answers, and one-click IEEE/APA citations"
 date: 2026-09-17
+category: ai
 tags: [Python, FastAPI, Pinecone, Gemini, BM25, TypeScript, Vite, Docker, GitHub Actions]
 status: maintained
 series: "AI Security & Governance"

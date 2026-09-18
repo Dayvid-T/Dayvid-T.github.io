@@ -1,0 +1,247 @@
+---
+import CategoryIcon from "./CategoryIcon.astro";
+import ProjectCard from "./ProjectCard.astro";
+import SeriesTimeline from "./SeriesTimeline.astro";
+import { projectsByCategory } from "../lib/projects";
+
+const groups = await projectsByCategory();
+const count = (n: number) => (n === 0 ? "Coming soon" : `${n} project${n === 1 ? "" : "s"}`);
+---
+
+<div class="accordion" data-accordion>
+  <div class="cat-grid" role="list">
+    {groups.map((g) => (
+      <button
+        type="button"
+        role="listitem"
+        class:list={["cat", { empty: g.projects.length === 0 }]}
+        id={`cat-${g.id}`}
+        aria-expanded="false"
+        aria-controls={`panel-${g.id}`}
+        data-cat-toggle={g.id}
+      >
+        <span class="cat-top">
+          <span class="cat-icon-wrap"><CategoryIcon id={g.id} /></span>
+          <span class="chev" aria-hidden="true"></span>
+        </span>
+        <span class="cat-name">{g.name}</span>
+        <span class="cat-blurb">{g.blurb}</span>
+        <span class="cat-count mono">{count(g.projects.length)}</span>
+      </button>
+    ))}
+  </div>
+
+  {groups.map((g) => (
+    <div class="panel" id={`panel-${g.id}`} data-cat-panel={g.id} aria-labelledby={`cat-${g.id}`} inert>
+      <div class="panel-inner">
+        <div class="panel-body">
+          {g.projects.length === 0 ? (
+            <div class="placeholder">
+              <p class="eyebrow"><span class="n">//</span>{g.name}</p>
+              <p>Nothing here yet. The first project in this track is on its way.</p>
+            </div>
+          ) : (
+            <>
+              {g.series.map((s) => (
+                <div class="series-block">
+                  <SeriesTimeline series={s} />
+                </div>
+              ))}
+              {g.standalone.length > 0 && (
+                <div class="cards">
+                  {g.standalone.map((p) => <ProjectCard project={p} />)}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .cat {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--navy), var(--bg-2));
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  }
+
+  .cat:hover {
+    transform: translateY(-3px);
+    border-color: var(--navy-line);
+  }
+
+  .cat[aria-expanded="true"] {
+    border-color: var(--wood);
+    background: linear-gradient(180deg, var(--navy-2), var(--navy));
+  }
+
+  .cat.empty {
+    color: var(--text-dim);
+  }
+
+  .cat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cat-icon-wrap {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--wood-dim);
+    color: var(--wood-2);
+  }
+
+  .cat.empty .cat-icon-wrap {
+    background: var(--blue-dim);
+    color: var(--blue);
+  }
+
+  .chev {
+    width: 10px;
+    height: 10px;
+    border-right: 1.5px solid var(--grey);
+    border-bottom: 1.5px solid var(--grey);
+    transform: rotate(45deg);
+    transition: transform 0.25s;
+    margin-right: 4px;
+  }
+
+  .cat[aria-expanded="true"] .chev {
+    transform: rotate(-135deg);
+  }
+
+  .cat-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .cat-blurb {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    flex: 1;
+  }
+
+  .cat-count {
+    font-size: 0.76rem;
+    color: var(--grey);
+  }
+
+  .cat[aria-expanded="true"] .cat-count {
+    color: var(--wood);
+  }
+
+  /* Height animates via the 0fr -> 1fr grid trick. */
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .panel.open {
+    grid-template-rows: 1fr;
+  }
+
+  .panel-inner {
+    overflow: hidden;
+  }
+
+  .panel-body {
+    padding-top: 28px;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+  }
+
+  .panel.open .panel-body {
+    opacity: 1;
+    transform: none;
+  }
+
+  .series-block + .cards,
+  .series-block + .series-block {
+    margin-top: 32px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px 28px;
+  }
+
+  .placeholder {
+    padding: 28px;
+    border-radius: var(--radius);
+    border: 1px dashed var(--navy-line);
+    background: var(--bg-2);
+    color: var(--text-dim);
+  }
+
+  .placeholder p:last-child {
+    margin: 8px 0 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel,
+    .panel-body,
+    .chev,
+    .cat {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-accordion]");
+  if (root) {
+    const toggles = root.querySelectorAll<HTMLButtonElement>("[data-cat-toggle]");
+    const panels = root.querySelectorAll<HTMLElement>("[data-cat-panel]");
+
+    function setOpen(id: string | null) {
+      toggles.forEach((t) => t.setAttribute("aria-expanded", String(t.dataset.catToggle === id)));
+      panels.forEach((p) => {
+        const open = p.dataset.catPanel === id;
+        p.classList.toggle("open", open);
+        if (open) p.removeAttribute("inert");
+        else p.setAttribute("inert", "");
+      });
+    }
+
+    toggles.forEach((t) =>
+      t.addEventListener("click", () => {
+        const id = t.dataset.catToggle!;
+        const already = t.getAttribute("aria-expanded") === "true";
+        setOpen(already ? null : id);
+        if (!already) history.replaceState(null, "", `#${id}`);
+      }),
+    );
+
+    // Deep links like /#ai open that category directly.
+    const initial = location.hash.replace("#", "");
+    if (initial && root.querySelector(`[data-cat-toggle="${CSS.escape(initial)}"]`)) {
+      setOpen(initial);
+      requestAnimationFrame(() => document.getElementById("projects")?.scrollIntoView());
+    }
+  }
+</script>

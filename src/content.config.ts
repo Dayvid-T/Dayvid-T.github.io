@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { categoryIds } from "./categories";
 
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
@@ -7,6 +8,7 @@ const projects = defineCollection({
     title: z.string(),
     summary: z.string(),
     date: z.coerce.date(),
+    category: z.enum(categoryIds),
     tags: z.array(z.string()).default([]),
     status: z.enum(["maintained", "complete", "in-progress", "planned"]).default("complete"),
     series: z.string().optional(),

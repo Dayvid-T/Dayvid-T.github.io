@@ -44,14 +44,15 @@
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 70%);
   }
 
-  /* Sits between the wash/grid and the particle canvas: a translucent grey
-     pane that mattes the backdrop down from near-black toward a flatter,
-     opaque-looking grey, without touching the particles painted on top
-     of it - so the constellation stays fully visible. */
+  /* Sits between the wash/grid and the particle canvas: a translucent
+     charcoal-grey pane that mattes the backdrop down to a flat, opaque
+     grey - dark enough that text and cards stay readable over it -
+     without touching the particles painted on top of it, so the
+     constellation stays fully visible. */
   .bg-scrim {
     position: absolute;
     inset: 0;
-    background: rgba(126, 132, 143, 0.22);
+    background: rgba(40, 43, 50, 0.55);
     backdrop-filter: blur(6px);
   }
 

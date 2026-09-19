@@ -7,6 +7,7 @@
 <div class="bg" aria-hidden="true">
   <div class="bg-wash"></div>
   <div class="bg-grid"></div>
+  <div class="bg-scrim"></div>
   <canvas id="bg-net"></canvas>
   <div class="bg-grain"></div>
   <div class="bg-vignette"></div>
@@ -43,6 +44,17 @@
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 70%);
   }
 
+  /* Sits between the wash/grid and the particle canvas: a translucent grey
+     pane that mattes the backdrop down from near-black toward a flatter,
+     opaque-looking grey, without touching the particles painted on top
+     of it - so the constellation stays fully visible. */
+  .bg-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(126, 132, 143, 0.22);
+    backdrop-filter: blur(6px);
+  }
+
   canvas {
     position: absolute;
     inset: 0;
@@ -63,7 +75,7 @@
   .bg-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(120% 90% at 50% 40%, transparent 60%, rgba(4, 6, 10, 0.5) 100%);
+    background: radial-gradient(120% 90% at 50% 40%, transparent 65%, rgba(20, 22, 28, 0.4) 100%);
   }
 </style>
 
@@ -129,9 +141,9 @@
         const dy = a.y - b.y;
         const d = Math.hypot(dx, dy);
         if (d > linkDist) continue;
-        const alpha = (1 - d / linkDist) * 0.16;
+        const alpha = (1 - d / linkDist) * 0.26;
         ctx.strokeStyle =
-          a.warm && b.warm ? `rgba(185,130,64,${alpha})` : `rgba(152,163,181,${alpha})`;
+          a.warm && b.warm ? `rgba(210,154,88,${alpha})` : `rgba(210,216,226,${alpha})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
@@ -141,7 +153,7 @@
     }
 
     for (const n of nodes) {
-      ctx.fillStyle = n.warm ? "rgba(210,154,88,0.6)" : "rgba(152,163,181,0.45)";
+      ctx.fillStyle = n.warm ? "rgba(226,172,102,0.85)" : "rgba(222,227,235,0.7)";
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
       ctx.fill();

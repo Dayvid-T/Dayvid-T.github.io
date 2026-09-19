@@ -1,0 +1,107 @@
+---
+import { site } from "../site";
+
+const { items, tagline, blurb } = site.skills;
+const colors: ("wood" | "blue")[] = ["wood", "blue"];
+---
+
+<div class="skills">
+  <div class="grid" role="list">
+    {items.map((skill, i) => (
+      <div class="skill" role="listitem">
+        <span class:list={["badge", colors[i % 2]]}>{skill.short}</span>
+        <span class="label">{skill.label}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="copy">
+    <p class="eyebrow"><span class="n">//</span>How I work</p>
+    <h3>{tagline}</h3>
+    <p>{blurb}</p>
+  </div>
+</div>
+
+<style>
+  .skills {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .skill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--navy), var(--bg-2));
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .skill:hover {
+    transform: translateY(-3px);
+    border-color: var(--navy-line);
+  }
+
+  .badge {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .badge.wood {
+    background: var(--wood-dim);
+    color: var(--wood-2);
+  }
+
+  .badge.blue {
+    background: var(--blue-dim);
+    color: var(--blue);
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .copy h3 {
+    margin: 8px 0 14px;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .copy p:not(.eyebrow) {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 820px) {
+    .skills {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import CategoryAccordion from "../components/CategoryAccordion.astro";
+import Skills from "../components/Skills.astro";
 import { site } from "../site";
 
 const contact = site.links.email ? `mailto:${site.links.email}` : site.links.github;
@@ -32,10 +33,22 @@ const contact = site.links.email ? `mailto:${site.links.email}` : site.links.git
     </div>
   </section>
 
+  <section id="skills" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="n">02</span>Skills</p>
+          <h2>What I build with.</h2>
+        </div>
+      </div>
+      <Skills />
+    </div>
+  </section>
+
   <section id="about" class="section">
     <div class="wrap about">
       <div>
-        <p class="eyebrow"><span class="n">02</span>About</p>
+        <p class="eyebrow"><span class="n">03</span>About</p>
         <h2>Hi, I'm {site.name.split(" ")[0]}.</h2>
       </div>
       <div class="about-body">
@@ -47,7 +60,7 @@ const contact = site.links.email ? `mailto:${site.links.email}` : site.links.git
   <section id="contact" class="section">
     <div class="wrap contact">
       <div>
-        <p class="eyebrow"><span class="n">03</span>Contact</p>
+        <p class="eyebrow"><span class="n">04</span>Contact</p>
         <h2>Get in touch.</h2>
       </div>
       <div>
